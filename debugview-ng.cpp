@@ -7,10 +7,9 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <signal.h>
 #include <ctime>
-
-#define COMMAND_LENGTH 256
+#include <signal.h>
+#include <sys/types.h>
 
 // SPDX-License-Identifier: MIT
 // Author: [NAZY-OS]
@@ -30,7 +29,7 @@ void usage() {
 
 // Function to execute a shell command and return the output as a string
 std::string exec(const char* cmd) {
-    char buffer[COMMAND_LENGTH];
+    char buffer[128];
     std::string result;
 
     FILE* pipe = popen(cmd, "r");
@@ -106,10 +105,4 @@ std::string generateOutputFilename(bool listModules, bool checkErrors, bool chec
 
 // Main function
 int main(int argc, char* argv[]) {
-    bool listModules = false, checkErrors = false, checkSystemdErrors = false, checkXorgDebug = false;
-    std::string outputDirectory;
-
-    // Parse command-line options
-    int opt;
-    while ((opt = getopt(argc, argv, "hmesxo:")) != -1) {
- 
+    bool listModules = false, checkErrors = false, checkSystemdError
